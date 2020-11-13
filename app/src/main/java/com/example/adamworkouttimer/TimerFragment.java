@@ -21,6 +21,7 @@ public class TimerFragment extends Fragment {
 
     private int seconds;
     private TextView tv;
+    private TextView tv2;
     private boolean paused = true;
     private FloatingActionButton fab;
     private Drawable PLAY;
@@ -40,7 +41,10 @@ public class TimerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        seconds = getArguments().getInt("time");
+        //Log.i("INFO", "Seconds from onViewCreated are " + seconds);
         tv = view.findViewById(R.id.time_text);
+        tv2 = view.findViewById(R.id.textView2);
         fab = view.findViewById(R.id.play_pause_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,11 +55,6 @@ public class TimerFragment extends Fragment {
         });
         PLAY = getResources().getDrawable(android.R.drawable.ic_media_pause);
         PAUSE = getResources().getDrawable(android.R.drawable.ic_media_play);
-        //I hard coded seconds to equal 30 since I was still not able to figure out why the app was not passing around the
-            // variable correctly.  TimerFragment below would get the correct number of seconds from the button pushed but I am stuck
-            // on what to do next.
-        //seconds = getArguments().getInt("time");
-        seconds = 30;
         if (savedInstanceState != null) {
             paused = savedInstanceState.getBoolean("paused");
             seconds = savedInstanceState.getInt("seconds");
@@ -92,6 +91,7 @@ public class TimerFragment extends Fragment {
                 if (!paused)
                     seconds--;
                 if (seconds == 0) {
+                    tv2.setText("Workout Complete");
                     paused = true;
                     fab.hide();
                 }
